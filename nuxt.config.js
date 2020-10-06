@@ -186,7 +186,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: `${env.HOST_API}/api`
+    baseURL: `${env.HOST_API}/`
   },
   /*
    ** Build configuration
@@ -197,35 +197,35 @@ export default {
      */
     extend (config, ctx) {}
   },
+  router: {
+    middleware: ['auth'],
+    base: '/'
+  },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: '/auth/login',
+            url: '/login',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: '/auth/logout',
+            url: '/logout',
             method: 'post'
           },
-          user: {
-            url: '/auth/user',
-            method: 'post',
-            propertyName: 'user'
-          }
-        }
-        // tokenRequired: true,
-        // tokenType: 'bearer',
+          user: { url: '/home', method: 'get', propertyName: 'user' }
+        },
         // globalToken: true,
-        // autoFetchUser: true
+        // tokenRequired: true,
+        tokenType: 'bearer',
+        autoFetchUser: false
       }
     },
     redirect: {
-      login: '/account/login',
+      login: '/login',
       logout: '/',
-      callback: '/account/login',
+      callback: '/login',
       home: '/'
     }
   }

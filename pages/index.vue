@@ -660,6 +660,7 @@
 </template>
 <script>
 export default {
+  auth: 'auth',
   layout: 'adminlte',
   components: {}
 }

@@ -481,7 +481,6 @@
 </template>
 <script>
 export default {
-  middleware: 'auth',
   layout: 'adminlte',
   components: {},
   mounted () {
