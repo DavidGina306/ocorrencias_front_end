@@ -149,32 +149,32 @@ export default {
     }
   },
   /*
-   ** Customize the progress-bar color
-   */
+     ** Customize the progress-bar color
+     */
   loading: {
     color: '#fff'
   },
   /*
-   ** Global CSS
-   */
+     ** Global CSS
+     */
   css: [],
   /*
-   ** Plugins to load before mounting the App
-   */
+     ** Plugins to load before mounting the App
+     */
   plugins: [{
     src: '~/plugins/plugin.js',
     ssr: false
   }],
   /*
-   ** Nuxt.js dev-modules
-   */
+     ** Nuxt.js dev-modules
+     */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module'
   ],
   /*
-   ** Nuxt.js modules
-   */
+     ** Nuxt.js modules
+     */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     'bootstrap-vue/nuxt',
@@ -182,19 +182,19 @@ export default {
     '@nuxtjs/auth'
   ],
   /*
-   ** Axios module configuration
-   ** See https://axios.nuxtjs.org/options
-   */
+     ** Axios module configuration
+     ** See https://axios.nuxtjs.org/options
+     */
   axios: {
     baseURL: `${env.HOST_API}/`
   },
   /*
-   ** Build configuration
-   */
+     ** Build configuration
+     */
   build: {
     /*
-     ** You can extend webpack config here
-     */
+         ** You can extend webpack config here
+         */
     extend (config, ctx) {}
   },
   router: {
@@ -208,17 +208,17 @@ export default {
           login: {
             url: '/login',
             method: 'post',
-            propertyName: 'access_token'
+            propertyName: 'token'
           },
           logout: {
             url: '/logout',
             method: 'post'
           },
-          user: { url: '/home', method: 'get', propertyName: 'user' }
+          user: { url: '/home', method: 'get', propertyName: false }
         },
         // globalToken: true,
         // tokenRequired: true,
-        tokenType: 'bearer',
+        // tokenType: 'bearer',
         autoFetchUser: false
       }
     },

@@ -9,6 +9,7 @@ import Vuex from 'vuex'
 // import filterAnnouncements from './modules/filterAnnouncements'
 // import layout from './modules/layout'
 Vue.use(Vuex)
+
 const createStore = () => {
   return new Vuex.Store({
     // modules: {
