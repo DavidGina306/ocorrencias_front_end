@@ -47,6 +47,18 @@ export default {
     },
     {
       rel: 'stylesheet',
+      href: '/plugins/datatables-buttons/css/buttons.bootstrap4.css'
+    },
+    {
+      rel: 'stylesheet',
+      href: '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'
+    },
+    {
+      rel: 'stylesheet',
+      href: '/plugins/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css'
+    },
+    {
+      rel: 'stylesheet',
       href: '/plugins/jqvmap/jqvmap.min.css'
     },
     {
@@ -96,19 +108,31 @@ export default {
     },
 
     {
-      src: 'plugins/datatables/jquery.dataTables.min.js',
+      src: '/plugins/datatables/jquery.dataTables.min.js',
       body: true
     },
     {
-      src: 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
+      src: '/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js',
       body: true
     },
     {
-      src: 'plugins/datatables-responsive/js/dataTables.responsive.min.js',
+      src: '/plugins/datatables-responsive/js/dataTables.responsive.min.js',
       body: true
     },
     {
-      src: 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+      src: '/plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
+      body: true
+    },
+    {
+      src: '/plugins/datatables-buttons/js/buttons.bootstrap4.js',
+      body: true
+    },
+    {
+      src: '/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
+      body: true
+    },
+    {
+      src: '/plugins/datatables-bs4/js/dataTables.bootstrap4.js',
       body: true
     },
     {
