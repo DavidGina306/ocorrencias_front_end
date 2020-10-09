@@ -6,7 +6,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">
-              Empregados
+              Departamentos
             </h1>
           </div>
           <!-- /.col -->
@@ -16,7 +16,7 @@
                 <a href="#">Home</a>
               </li>
               <li class="breadcrumb-item active">
-                Empregados
+                Departamentos
               </li>
             </ol>
           </div>
@@ -41,44 +41,23 @@
             <form role="form">
               <div class="card-body">
                 <div class="form-group">
-                  <label for="exampleInputEmail">Nome</label>
+                  <label for="exampleInputNome">Nome</label>
                   <input
                     type="text"
                     class="form-control"
-                    v-model="form.txNome"
-                    id="exampleInputEmail"
+                    v-model="form.txDescricao"
+                    id="exampleInputNome"
                     placeholder="Digite o Nome"
                     @keyup="keyUpHandler"
                     required
                   >
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputPassword">Senha</label>
-                  <input
-                    type="password"
-                    v-model="form.txSenha"
-                    class="form-control"
-                    id="exampleInputPassword"
-                    placeholder="Digiete a Senha"
-                    required
-                  >
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputMatricula">Matricula</label>
-                  <input
-                    type="text"
-                    v-mask="'##########'"
-                    v-model="form.txMatricula"
-                    class="form-control"
-                    id="exampleInputMatricula"
-                    placeholder="Digite a Matrícula">
-                </div>
-                <div class="form-group">
                   <label for="idEmpresa">Empresa</label>
                   <v-select
                     @input="getDepartamentos"
                     v-model="form.idEmpresa"
-                    label="txNomeFantasia"
+                    label="txDescricaoFantasia"
                     :options="this.idEmpresaOption"
                     :reduce="option => option.idEmpresa">
                   </v-select>
@@ -163,7 +142,7 @@ export default {
       })
     },
     keyUpHandler ($event) {
-      this.form.txNome = String(this.form.txNome).toUpperCase()
+      this.form.txDescricao = String(this.form.txDescricao).toUpperCase()
     }
   }
 }

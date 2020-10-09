@@ -565,3 +565,8 @@
     <!-- /.sidebar -->
   </aside>
 </template>
+<style>
+.main-sidebar {
+  background-color: #194d7f !important;
+}
+</style>

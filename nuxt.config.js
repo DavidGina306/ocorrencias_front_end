@@ -120,19 +120,11 @@ export default {
       body: true
     },
     {
-      src: '/plugins/datatables-responsive/js/responsive.bootstrap4.min.js',
-      body: true
-    },
-    {
-      src: '/plugins/datatables-buttons/js/buttons.bootstrap4.js',
-      body: true
-    },
-    {
-      src: '/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js',
-      body: true
-    },
-    {
       src: '/plugins/datatables-bs4/js/dataTables.bootstrap4.js',
+      body: true
+    },
+    {
+      src: '/plugins/datatables.net-buttons-bs4/js/buttons.bootstrap4.js',
       body: true
     },
     {
