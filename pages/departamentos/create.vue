@@ -34,7 +34,7 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Cadastro de Empregados</h3>
+              <h3 class="card-title">Cadastro de Departamentos</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -134,9 +134,9 @@ export default {
     },
     submit () {
       console.log(this.fom)
-      this.$axios.$post('empregado', this.form).then((resp) => {
+      this.$axios.$post('departameno', this.form).then((resp) => {
         console.log(resp)
-        this.$router.push('/empregados')
+        this.$router.push('/departamenos')
       }).catch((error) => {
         this.showErrors(error)
       })
