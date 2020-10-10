@@ -6,7 +6,7 @@
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1 class="m-0 text-dark">
-            Departamentos
+            Veiculos
           </h1>
         </div>
         <!-- /.col -->
@@ -16,7 +16,7 @@
               <a href="#">Home</a>
             </li>
             <li class="breadcrumb-item active">
-              Departamentos
+              Veiculos
             </li>
           </ol>
         </div>
@@ -37,7 +37,7 @@
                   <div class="card-header ui-sortable-handle" style="cursor: move;">
                     <h3 class="card-title">
                       <i class="fas fa-chart-pie mr-1"></i>
-                      Lista de Departamentos
+                      Lista de Veiculos
                     </h3>
                     <div class="card-tools">
                       <ul class="nav nav-pills ml-auto mb-2">
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     showCreate () {
-      this.$router.push('/departamentos/create/')
+      this.$router.push('/veiculos/create/')
     }
   }
 }

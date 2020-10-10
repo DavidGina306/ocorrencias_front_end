@@ -6,7 +6,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">
-              Departamentos
+              Veiculos
             </h1>
           </div>
           <!-- /.col -->
@@ -16,7 +16,7 @@
                 <a href="#">Home</a>
               </li>
               <li class="breadcrumb-item active">
-                Departamentos
+                Veiculos
               </li>
             </ol>
           </div>
@@ -34,20 +34,45 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Cadastro de Departamentos</h3>
+              <h3 class="card-title">Cadastro de Veiculos</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
             <form role="form">
               <div class="card-body">
                 <div class="form-group">
-                  <label for="exampleInputNome">Nome</label>
+                  <label for="exampleInputMarca">Marca</label>
                   <input
                     type="text"
                     class="form-control"
-                    v-model="form.txDescricao"
-                    id="exampleInputNome"
-                    placeholder="Digite o Nome"
+                    v-model="form.txMarca"
+                    id="exampleInputMarca"
+                    placeholder="Digite o Marca"
+                    @keyup="keyUpHandler"
+                    required
+                  >
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputModelo">Modelo</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="form.txModelo"
+                    id="exampleInputModelo"
+                    placeholder="Digite o Modelo"
+                    @keyup="keyUpHandler"
+                    required
+                  >
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPlaca">Placa</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="form.txPlaca"
+                    v-mask="'AAA-####'"
+                    id="exampleInputPlaca"
+                    placeholder="Digite o Placa"
                     @keyup="keyUpHandler"
                     required
                   >
@@ -58,17 +83,17 @@
                     @input="getDepartamentos"
                     v-model="form.idEmpresa"
                     label="txNomeFantasia"
-                    :options="this.EmpresaOption"
+                    :options="this.idEmpresaOption"
                     :reduce="option => option.idEmpresa">
                   </v-select>
                 </div>
                 <div class="form-group">
-                  <label for="exampleInputFile">Gerente</label>
+                  <label for="exampleInputFile">Departamento</label>
                   <v-select
-                    label="txNome"
-                    v-model="form.funcionarioId"
-                    :options="this.gerenteOption"
-                    :reduce="option => option.idFuncionario">
+                    label="txDescricao"
+                    v-model="form.idDepartamento"
+                    :options="this.departamentoOption"
+                    :reduce="option => option.idDepartamento">
                   </v-select>
                 </div>
               </div>
@@ -98,14 +123,11 @@ export default {
   middleware: 'auth',
   layout: 'adminlte',
   components: {},
-  created () {
-    this.getidEmpresas()
-    this.getEmpregados()
-  },
+  created () { this.getidEmpresas() },
   data () {
     return {
-      EmpresaOption: [],
-      gerenteOption: [],
+      idEmpresaOption: [],
+      departamentoOption: [],
       form: {},
       loading: false,
       selectCategories: [],
@@ -125,7 +147,7 @@ export default {
   methods: {
     async getidEmpresas () {
       const idEmpresas = await this.$axios.$get('empresa/all')
-      this.EmpresaOption = idEmpresas
+      this.idEmpresaOption = idEmpresas
     },
     async getDepartamentos () {
       if (this.form.idEmpresa) {
@@ -136,20 +158,23 @@ export default {
       this.departametnoOption = []
     },
     submit () {
-      this.$axios.$post('departamento', this.form).then((resp) => {
-        this.$router.push('/departamentos')
+      console.log(this.fom)
+      this.$axios.$post('veiculo', this.form).then((resp) => {
+        console.log(resp)
+        this.$router.push('/veiculos')
       }).catch((error) => {
         this.showErrors(error)
       })
     },
     keyUpHandler ($event) {
-      this.form.txDescricao = String(this.form.txDescricao).toUpperCase()
-    },
-    async getEmpregados () {
-      const empregados = await this.$axios.$get('empregado/all')
-      this.gerenteOption = empregados
+      if (this.form.txMarca) {
+        this.form.txMarca = String(this.form.txMarca).toUpperCase()
+      }
+      if (this.form.txModelo) {
+        this.form.txModelo = String(this.form.txModelo).toUpperCase()
+      }
+      if (this.form.txPlaca) { this.form.txPlaca = String(this.form.txPlaca).toUpperCase() }
     }
-
   }
 }
 </script>
