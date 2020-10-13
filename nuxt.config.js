@@ -158,6 +158,10 @@ export default {
     {
       src: '/dist/js/adminlte.js',
       body: true
+    },
+    {
+      src: 'jquery.spring-friendly.js',
+      body: true
     }
     ],
     bodyAttrs: {
