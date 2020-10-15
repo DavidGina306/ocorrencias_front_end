@@ -183,7 +183,10 @@ export default {
      */
   plugins: [{
     src: '~/plugins/plugin.js',
-    ssr: false
+    ssr: false,
+    jQuery: 'jquery',
+    $: 'jquery',
+    'window.jQuery': 'jquery'
   }],
   /*
      ** Nuxt.js dev-modules

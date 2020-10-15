@@ -55,12 +55,43 @@
                   </div><!-- /.card-header -->
                   <div class='card-body'>
                     <div class='card-body'>
-                      <table id='cargos_data_table' class='table table-bordered table-hover'>
-                        <thead>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
+                      <div class="overflow-auto">
+
+                        <b-table
+                          bordered
+                          :fields="fields"
+                          striped
+                          hover
+                          id="my-table"
+                          :items="cargos"
+                          :per-page="perPage"
+                          :current-page="currentPage"
+                          responsive="sm"
+                          small
+                        >
+                        <template v-slot:cell(idCargo)="data">
+                          <b-dropdown right split text="AÇÕES">
+                             <b-dropdown-item @click="alterarStatus(data.item)"><i class="fas fa-toggle-on"></i> Alterar Status</b-dropdown-item>
+                             <b-dropdown-divider> </b-dropdown-divider>
+                             <b-dropdown-item @click="editar(data.item)"><i class="fas fa-exchange-alt"></i> Editar</b-dropdown-item>
+                             <b-dropdown-divider> </b-dropdown-divider>
+                             <b-dropdown-item><i class="far fa-trash-alt"></i> Deletar</b-dropdown-item>
+                          </b-dropdown>
+                        </template>
+                      </b-table>
+                        <p class="mt-3 pt-2">Página Atual: {{ currentPage }}</p>
+                        <b-pagination
+                          first-text="Início"
+                          v-model="currentPage"
+                          :total-rows="rows"
+                          :per-page="perPage"
+                          aria-controls="my-table"
+                          last-text="Fim"
+                          align="right"
+                        ></b-pagination>
+
+                      </div>
+
                     </div>
                   </div><!-- /.card-body -->
                 </div>
@@ -84,66 +115,47 @@ export default {
   layout: 'adminlte',
   components: {},
   mounted () {
-    console.log('CArgos')
-    this.$axios.$get('cargo')
-    // eslint-disable-next-line no-undef
-    $('#cargos_data_table').DataTable({
-      ajax: {
-        crossDomain: true,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        },
-        url: 'http://127.0.0.1:9090/cargo/datatable',
-        beforeSend (xhr) {
-          console.log(xhr)
-          xhr.setRequestHeader('Authorization', 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYwMjk1Mzk2M30.OPTz-DVCxJJjksJQKqQc8_6bowh266szE1K8Gz-ahFXBnOB25x8if-UwKsZ9lgvZZ3v1c5-fZoxCtpz0VyzOGA')
-        },
-        type: 'POST',
-        data (d) {
-          return JSON.stringify(d)
-        }
-      },
-      responsive: true,
-      autoWidth: false,
-      serverSide: true,
-      buttons: [
-        'copy', 'excel', 'pdf'
-      ],
-      columns: [
-        { title: 'ID', data: 'idCargo' },
-        { title: 'NOME', data: 'txNome' },
-        { title: 'DESCRICAO', data: 'txDescricao' }
-      ]
+    this.$axios.$get('cargo').then((resp) => {
+      this.cargos = resp
+    }).catch((error) => {
+      this.showErrors(error)
     })
+
+    this.$axios.$get('cargo/tabela').then((resp) => {
+      console.log(resp)
+    }).catch((error) => {
+      this.showErrors(error)
+    })
+  },
+  data () {
+    return {
+      fields: [
+        { key: 'idCargo', label: '' },
+        { key: 'txNome', label: 'NOME', sortable: true },
+        { key: 'txDescricao', label: 'DESCRIÇÃO' }
+      ],
+      cargos: [],
+      gerenteOption: [],
+      form: {},
+      loading: false,
+      currentPage: 1,
+      perPage: 3
+    }
+  },
+  computed: {
+    rows () {
+      return this.cargos.length
+    }
   },
   methods: {
     showCreate () {
       this.$router.push('/cargos/create/')
     },
-    flatten (params) {
-      params.columns.forEach(function (column, index) {
-        params['columns[' + index + '].data'] = column.data
-        params['columns[' + index + '].name'] = column.name
-        params['columns[' + index + '].searchable'] = column.searchable
-        params['columns[' + index + '].orderable'] = column.orderable
-        params['columns[' + index + '].search.regex'] = column.search.regex
-        params['columns[' + index + '].search.value'] = column.search.value
-      })
-      delete params.columns
-
-      params.order.forEach(function (order, index) {
-        params['order[' + index + '].column'] = order.column
-        params['order[' + index + '].dir'] = order.dir
-      })
-      delete params.order
-
-      params['search.regex'] = params.search.regex
-      params['search.value'] = params.search.value
-      delete params.search
-
-      return params
+    editar (item) {
+      console.log(item)
+    },
+    alterarStatus (item) {
+      console.log(item)
     }
   }
 }
