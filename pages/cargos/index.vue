@@ -56,7 +56,25 @@
                   <div class='card-body'>
                     <div class='card-body'>
                       <div class="overflow-auto">
-
+                        <div>
+                          <b-row>
+                            <b-col cols="2">
+                              <span>Mostrar</span>
+                              <b-form-select
+                                @change="pesquisar"
+                                v-model="search.size"
+                                :options="options"
+                                size="sm"
+                                class="mt-1 mb-3">
+                              </b-form-select>
+                            </b-col>
+                            <b-col cols="6"></b-col>
+                            <b-col cols="4">
+                              <span>Pesquisar</span>
+                              <b-input v-model="search.searchTerm" @keyup="pesquisar(search.searchTerm)" size="sm" id="inline-form-input-username" placeholder=""></b-input>
+                            </b-col>
+                          </b-row>
+                        </div>
                         <b-table
                           bordered
                           :fields="fields"
@@ -64,34 +82,31 @@
                           hover
                           id="my-table"
                           :items="cargos"
-                          :per-page="perPage"
+                          :per-page="this.search.size"
                           :current-page="currentPage"
                           responsive="sm"
-                          small
-                        >
-                        <template v-slot:cell(idCargo)="data">
-                          <b-dropdown right split text="AÇÕES">
-                             <b-dropdown-item @click="alterarStatus(data.item)"><i class="fas fa-toggle-on"></i> Alterar Status</b-dropdown-item>
-                             <b-dropdown-divider> </b-dropdown-divider>
-                             <b-dropdown-item @click="editar(data.item)"><i class="fas fa-exchange-alt"></i> Editar</b-dropdown-item>
-                             <b-dropdown-divider> </b-dropdown-divider>
-                             <b-dropdown-item><i class="far fa-trash-alt"></i> Deletar</b-dropdown-item>
-                          </b-dropdown>
-                        </template>
-                      </b-table>
+                          small>
+                            <template v-slot:cell(idCargo)="data">
+                              <b-dropdown right split text="AÇÕES">
+                                 <b-dropdown-item @click="alterarStatus(data.item)"><i class="fas fa-toggle-on"></i> Alterar Status</b-dropdown-item>
+                                 <b-dropdown-divider> </b-dropdown-divider>
+                                 <b-dropdown-item @click="editar(data.item)"><i class="fas fa-exchange-alt"></i> Editar</b-dropdown-item>
+                                 <b-dropdown-divider> </b-dropdown-divider>
+                                 <b-dropdown-item><i class="far fa-trash-alt"></i> Deletar</b-dropdown-item>
+                              </b-dropdown>
+                            </template>
+                        </b-table>
                         <p class="mt-3 pt-2">Página Atual: {{ currentPage }}</p>
                         <b-pagination
                           first-text="Início"
                           v-model="currentPage"
                           :total-rows="rows"
-                          :per-page="perPage"
+                          :per-page="this.search.size"
                           aria-controls="my-table"
                           last-text="Fim"
                           align="right"
                         ></b-pagination>
-
                       </div>
-
                     </div>
                   </div><!-- /.card-body -->
                 </div>
@@ -139,7 +154,13 @@ export default {
       form: {},
       loading: false,
       currentPage: 1,
-      perPage: 3
+      search: { page: 1, size: 10, searchTerm: '' },
+      perPage: 10,
+      options: [
+        { value: 5, text: '5' },
+        { value: 10, text: '10' },
+        { value: 20, text: '50' }
+      ]
     }
   },
   computed: {
@@ -152,10 +173,17 @@ export default {
       this.$router.push('/cargos/create/')
     },
     editar (item) {
-      console.log(item)
+      this.$router.push({ name: 'cargos-edit', params: item })
     },
     alterarStatus (item) {
-      console.log(item)
+      //
+    },
+    pesquisar () {
+      this.$axios.$get(`cargo/search?page=0&size=${this.search.size}&searchTerm=${this.search.searchTerm}`).then((resp) => {
+        this.cargos = resp.cargos
+      }).catch((error) => {
+        this.showErrors(error)
+      })
     }
   }
 }

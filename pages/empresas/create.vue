@@ -6,7 +6,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0 text-dark">
-              Cargos
+              Empresas
             </h1>
           </div>
           <!-- /.col -->
@@ -16,7 +16,7 @@
                 <a href="#">Home</a>
               </li>
               <li class="breadcrumb-item active">
-                Cargos
+                Empresas
               </li>
             </ol>
           </div>
@@ -34,7 +34,7 @@
           <!-- general form elements -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title">Cadastro de Cargos</h3>
+              <h3 class="card-title">Cadastro de Empresas</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -45,26 +45,14 @@
                   <input
                     type="text"
                     class="form-control"
-                    v-model="form.txNome"
+                    v-model="form.txNomeFantasia"
                     id="exampleInputNome"
                     placeholder="Digite o Nome"
                     @keyup="keyUpHandler"
                     required
                   >
                 </div>
-                <div class="form-group">
-                  <label for="exampleInputNome">Descricao</label>
-                  <textarea
-                    id="exampleInputDescricao"
-                    v-model="form.txDescricao"
-                    name="txDescricao"
-                    class="form-control"
-                    rows="5"
-                    cols="33">
-                  </textarea>
-                </div>
               </div>
-
               <div class="card-footer">
                 <button
                   type="submit"
@@ -92,8 +80,6 @@ export default {
   components: {},
   data () {
     return {
-      EmpresaOption: [],
-      gerenteOption: [],
       form: {},
       loading: false,
       selectCategories: [],
@@ -114,15 +100,18 @@ export default {
   },
   methods: {
     submit () {
-      this.$axios.$post('cargo', this.form).then((resp) => {
-        setTimeout(() => { this.$router.push('/cargos') }, 3000)
+      console.log(this.form)
+      this.$axios.$post('empresa', {
+        txNomeFantasia: this.form.txNomeFantasia
+      }).then((resp) => {
+        setTimeout(() => { this.$router.push('/empresas') }, 3000)
         this.$toast.success('Cadastro Relizado com Sucesso')
       }).catch((error) => {
         this.showErrors(error)
       })
     },
     keyUpHandler ($event) {
-      this.form.txNome = String(this.form.txNome).toUpperCase()
+      this.form.txNomeFantasia = String(this.form.txNomeFantasia).toUpperCase()
     }
   }
 }

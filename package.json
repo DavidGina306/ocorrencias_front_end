@@ -23,6 +23,7 @@
     "datatables.net-buttons-bs4": "^1.6.4",
     "nuxt": "^2.14.5",
     "v-mask": "^2.2.3",
+    "vue-izitoast": "^1.2.1",
     "vue-select": "^3.10.8"
   },
   "devDependencies": {

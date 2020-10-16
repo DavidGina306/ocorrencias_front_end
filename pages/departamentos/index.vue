@@ -1,21 +1,21 @@
 <template>
 <div>
   <!-- Content Header (Page header) -->
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0 text-dark">
+  <div class='content-header'>
+    <div class='container-fluid'>
+      <div class='row mb-2'>
+        <div class='col-sm-6'>
+          <h1 class='m-0 text-dark'>
             Departamentos
           </h1>
         </div>
         <!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item">
-              <a href="#">Home</a>
+        <div class='col-sm-6'>
+          <ol class='breadcrumb float-sm-right'>
+            <li class='breadcrumb-item'>
+              <a href='#'>Home</a>
             </li>
-            <li class="breadcrumb-item active">
+            <li class='breadcrumb-item active'>
               Departamentos
             </li>
           </ol>
@@ -25,49 +25,88 @@
       <!-- /.row -->
     </div>
   </div>
-  <section class="content">
-    <div class="container-fluid">
+  <section class='content'>
+    <div class='container-fluid'>
       <!-- Main row -->
-      <div class="row">
-        <div class="col-12">
-          <section class="content">
-            <div class="row">
-              <div class="col-12">
-                <div class="card">
-                  <div class="card-header ui-sortable-handle" style="cursor: move;">
-                    <h3 class="card-title">
-                      <i class="fas fa-chart-pie mr-1"></i>
+      <div class='row'>
+        <div class='col-12'>
+          <section class='content'>
+            <div class='row'>
+              <div class='col-12'>
+                <div class='card'>
+                  <div class='card-header ui-sortable-handle' style='cursor: move'>
+                    <h3 class='card-title'>
+                      <i class='fas fa-chart-pie mr-1'></i>
                       Lista de Departamentos
                     </h3>
-                    <div class="card-tools">
-                      <ul class="nav nav-pills ml-auto mb-2">
-                        <li class="nav-item pr-1 ">
-                          <button class="btn btn-success" @click="showCreate"> <i class="fa fa-user" aria-hidden="true"></i> Novo</button>
+                    <div class='card-tools'>
+                      <ul class='nav nav-pills ml-auto mb-2'>
+                        <li class='nav-item pr-1 '>
+                          <button class='btn btn-success' @click='showCreate'> <i class='fa fa-user' aria-hidden='true'></i> Novo</button>
                         </li>
-                        <li class="nav-item">
-                          <button class="btn bg-purpple"><i class="fas fa-sync"></i> Atualizar</button>
+                        <li class='nav-item'>
+                          <button class='btn bg-purpple'><i class='fas fa-sync'></i> Atualizar</button>
                         </li>
-                        <!-- <li class="nav-item">
-                          <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                        <!-- <li class='nav-item'>
+                          <a class='nav-link' href='#sales-chart' data-toggle='tab'>Donut</a>
                         </li -->
                       </ul>
                     </div>
                   </div><!-- /.card-header -->
-                  <div class="card-body">
-                    <div class="card-body">
-                      <table id="example1" class="table table-bordered table-hover">
-                        <thead>
-                          <tr>
-                            <th>Rendering engine</th>
-                            <th>Browser</th>
-                            <th>Platform(s)</th>
-                            <th>Engine version</th>
-                            <th>CSS grade</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
+                  <div class='card-body'>
+                    <div class='card-body'>
+                      <div class="overflow-auto">
+                        <div>
+                          <b-row>
+                            <b-col cols="2">
+                              <span>Mostrar</span>
+                              <b-form-select
+                                @change="pesquisar"
+                                v-model="search.size"
+                                :options="options"
+                                size="sm"
+                                class="mt-1 mb-3">
+                              </b-form-select>
+                            </b-col>
+                            <b-col cols="6"></b-col>
+                            <b-col cols="4">
+                              <span>Pesquisar</span>
+                              <b-input v-model="search.searchTerm" @keyup="pesquisar(search.searchTerm)" size="sm" id="inline-form-input-username" placeholder=""></b-input>
+                            </b-col>
+                          </b-row>
+                        </div>
+                        <b-table
+                          bordered
+                          :fields="fields"
+                          striped
+                          hover
+                          id="my-table"
+                          :items="departamentos"
+                          :per-page="this.search.size"
+                          :current-page="currentPage"
+                          responsive="sm"
+                          small>
+                            <template v-slot:cell(idDepartamento)="data">
+                              <b-dropdown right split text="AÇÕES">
+                                 <b-dropdown-item @click="alterarStatus(data.item)"><i class="fas fa-toggle-on"></i> Alterar Status</b-dropdown-item>
+                                 <b-dropdown-divider> </b-dropdown-divider>
+                                 <b-dropdown-item @click="editar(data.item)"><i class="fas fa-exchange-alt"></i> Editar</b-dropdown-item>
+                                 <b-dropdown-divider> </b-dropdown-divider>
+                                 <b-dropdown-item><i class="far fa-trash-alt"></i> Deletar</b-dropdown-item>
+                              </b-dropdown>
+                            </template>
+                        </b-table>
+                        <p class="mt-3 pt-2">Página Atual: {{ currentPage }}</p>
+                        <b-pagination
+                          first-text="Início"
+                          v-model="currentPage"
+                          :total-rows="rows"
+                          :per-page="this.search.size"
+                          aria-controls="my-table"
+                          last-text="Fim"
+                          align="right"
+                        ></b-pagination>
+                      </div>
                     </div>
                   </div><!-- /.card-body -->
                 </div>
@@ -91,18 +130,49 @@ export default {
   layout: 'adminlte',
   components: {},
   mounted () {
-    // eslint-disable-next-line no-undef
-    $('#example1').DataTable({
-      responsive: true,
-      autoWidth: false,
-      buttons: [
-        'copy', 'excel', 'pdf'
+    this.pesquisar()
+  },
+  data () {
+    return {
+      fields: [
+        { key: 'idDepartamento', label: '' },
+        { key: 'txDescricao', label: 'NOME', sortable: true }
+      ],
+      departamentos: [],
+      gerenteOption: [],
+      form: {},
+      loading: false,
+      currentPage: 1,
+      search: { page: 1, size: 10, searchTerm: '' },
+      perPage: 10,
+      options: [
+        { value: 5, text: '5' },
+        { value: 10, text: '10' },
+        { value: 20, text: '50' }
       ]
-    })
+    }
+  },
+  computed: {
+    rows () {
+      return this.departamentos.length
+    }
   },
   methods: {
     showCreate () {
       this.$router.push('/departamentos/create/')
+    },
+    editar (item) {
+      this.$router.push({ name: 'departamentos-edit', params: item })
+    },
+    alterarStatus (item) {
+      //
+    },
+    pesquisar () {
+      this.$axios.$get(`departamento/search?page=0&size=${this.search.size}&searchTerm=${this.search.searchTerm}`).then((resp) => {
+        this.departamentos = resp.departamentos
+      }).catch((error) => {
+        this.showErrors(error)
+      })
     }
   }
 }
